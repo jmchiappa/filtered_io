@@ -1,7 +1,12 @@
 #include "filtered_io.h"
 
-#define DEBUG_PRINTLN(a,b)	{Serial.print(a);Serial.println(b);}
-#define DEBUG_BEGIN	{Serial.begin(115200);}
+#ifdef DEBUG
+#		define DEBUG_PRINTLN(a,b)	{Serial.print(a);Serial.println(b);}
+#		define DEBUG_BEGIN	{Serial.begin(115200);}
+#else
+#		define DEBUG_BEGIN
+#		define DEBUG_PRINTLN
+#endif
 
 FilteredInput::FilteredInput(uint8_t pin, uint8_t mode) {
 	this->PinNumber = pin;
