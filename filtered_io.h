@@ -16,9 +16,9 @@
 class FilteredInput
 {
 	public:
-		Bistable(uint8_t pin);
+		FilteredInput(uint8_t pin,uint8_t mode);
 		void begin(uint32_t DebouncerDelay=50);
-		bool filteredValue();
+		uint8_t filteredValue();
 	private:
 		uint8_t PinNumber;
 		uint8_t mode;
@@ -26,7 +26,6 @@ class FilteredInput
 		uint8_t currentState;
 		uint64_t t0;
 		uint32_t delay=50; //ms
-	    bool Update=false;
 };
 
 #endif // FILTERED_IO_H
