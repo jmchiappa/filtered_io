@@ -1,11 +1,12 @@
 #include "filtered_io.h"
 
+// #define DEBUG
 #ifdef DEBUG
 #		define DEBUG_PRINTLN(a,b)	{Serial.print(a);Serial.println(b);}
 #		define DEBUG_BEGIN	{Serial.begin(115200);}
 #else
 #		define DEBUG_BEGIN
-#		define DEBUG_PRINTLN
+#		define DEBUG_PRINTLN(a,b)
 #endif
 
 FilteredInput::FilteredInput(uint8_t pin, uint8_t mode) {
@@ -13,20 +14,20 @@ FilteredInput::FilteredInput(uint8_t pin, uint8_t mode) {
 	this->mode = mode;
 }
 
-void FilteredInput::begin(uint32_t DebouncerDelay)
+void FilteredInput::begin(uint32_t _DebouncerDelay)
 {
-	DEBUG_BEGIN;
-	this->delay=DebouncerDelay;
+	// DEBUG_BEGIN;
+	this->debouncerDelay=_DebouncerDelay;
 	if((mode==INPUT)||(mode==INPUT_PULLUP))	{
 		pinMode(this->PinNumber, mode);
 	} else {
 		pinMode(this->PinNumber, INPUT);
 	}
-
-	uint8_t currentState = digitalRead(this->PinNumber);
+	delay(10);
+	currentState = digitalRead(this->PinNumber);
 	t0=0;
 	DEBUG_PRINTLN("demarrage, pin : ",this->PinNumber);
-	DEBUG_PRINTLN("delai : ",this->delay);
+	DEBUG_PRINTLN("delai : ",this->debouncerDelay);
 	DEBUG_PRINTLN("etat courant : ",currentState);
 }
 
@@ -42,7 +43,7 @@ uint8_t FilteredInput::filteredValue(void)
 			DEBUG_PRINTLN("nouvel etat possible : ",newPotentialState);
 		}		
 	}else{
-		if( (millis()-t0)>delay ) {
+		if( (millis()-t0)>debouncerDelay ) {
 			if(state==newPotentialState) {
 				DEBUG_PRINTLN("nouvel etat confirmé : ",newPotentialState);
 				currentState = state;

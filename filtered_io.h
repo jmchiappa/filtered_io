@@ -17,7 +17,7 @@ class FilteredInput
 {
 	public:
 		FilteredInput(uint8_t pin,uint8_t mode);
-		void begin(uint32_t DebouncerDelay=50);
+		void begin(uint32_t _DebouncerDelay=50);
 		uint8_t filteredValue();
 	private:
 		uint8_t PinNumber;
@@ -25,7 +25,7 @@ class FilteredInput
 		uint8_t newPotentialState;
 		uint8_t currentState;
 		uint64_t t0;
-		uint32_t delay=50; //ms
+		uint32_t debouncerDelay=50; //ms
 };
 
 #endif // FILTERED_IO_H
